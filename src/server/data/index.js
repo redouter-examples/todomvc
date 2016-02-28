@@ -36,43 +36,38 @@ const get = id => {
 	}
 }
 
-const update = (id, { text }) => {
+const update = (id, { text, status }) => {
 	const todo = get(id);
 	if (todo) {
 		todo.text = text;
+		if (validStatus(status)) {
+			todo.status = status;
+		} else {
+			console.warn(`Attempted to set invalid status ${status} on ${id}`);
+		}
+	} else {
+		console.warn(`Could not find a todo with id ${id}`);
 	}
+	return todo;
 }
 
 const add = ({ text }) => {
-	todos.push({
-		id: generateId(),
-		text,
-		status: PENDING
-	});
+	const id = generateId();
+	todos.push({ id, text, status: PENDING });
+	return id;
 }
 
 const list = () => cloneDeep(todos);
 
-const setStatus = (id, status) => {
-	if (validStatus(status)) {
-		const record = find(todos, { id });
-		if (record) {
-			record.status = status;
-		} else {
-			console.warn(`Could not find a todo with id ${id}`);
-		}
-	} else {
-		console.warn(`Attempted to set invalid status ${status} on ${id}`);
-	}
-};
-
 const remove = id => {
 	const index = findIndex(todos, {id});
+	let deleted;
 	if (index) {
-		todos.splice(index,1);
+		deleted = todos.splice(index, 1);
 	} else {
 		console.warn(`Tried to delete a TODO that doesn't exist: ${id}`);
 	}
+	return deleted;
 };
 
-export { add, get, list, update, setStatus, remove };
+export { add, get, list, update, remove };

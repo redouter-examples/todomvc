@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import { Router } from 'express';
 import { renderToString } from 'react-dom/server';
 import * as database from '../data/index';
@@ -26,6 +26,31 @@ router.get('/:id', (req, res) => {
 	} else {
 		res.status(404).end();
 	}
+});
+
+router.post('/', (req, res) => {
+	const todo = req.body;
+	const id = database.add(todo);
+	res.redirect(`/${id}`);
+})
+
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const { text, status } = req.body;
+	const todo = database.update(id, { text, status });
+
+	if (todo.id) {
+		res.redirect(`/${todo.id}`);	
+	} else {
+		res.redirect(`/`);
+	}
+	
+});
+
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+	database.remove(id);
+	res.redirect(`/`);
 });
 
 export default router;
