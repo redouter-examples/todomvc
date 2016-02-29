@@ -26,48 +26,18 @@ const getOr404 = (req, res, fn) => {
 };
 
 // these are purely HTML endpoints
-router.get('/views/show/:id', (req, res) => {
-	getOr404(req, res, todo => renderToString(<ViewPage {...todo} />));
-});
+router.get('/views/show/:id', (req, res) => getOr404(req, res, todo => renderToString(<ViewPage {...todo} />)));
+router.get('/views/update/:id', (req, res) => getOr404(req, res, todo => renderToString(<UpdatePage {...todo} />)));
+router.get('/views/create', (req, res) => write(res, renderToString(<CreatePage />)));
+router.get('/views/delete/:id', (req, res) => getOr404(req, res, todo => renderToString(<DeletePage {...todo} />)));
+router.get('/views/list', (req, res) => write(res, renderToString(<ListPage todos={database.list()} />)));
 
-router.get('/views/update/:id', (req, res) => {
-	getOr404(req, res, todo => renderToString(<UpdatePage {...todo} />));
-});
-
-router.get('/views/create', (req, res) => {
-	write(res, renderToString(<CreatePage />));
-});
-
-router.get('/views/delete/:id', (req, res) => {
-	getOr404(req, res, todo => renderToString(<DeletePage {...todo} />));
-});
-
-router.get('/views/list', (req, res) => {
-	const todos = database.list();
-	write(res, renderToString(<ListPage todos={todos} />));
-});
-
-// these are, oddly, both a RESTful and a HTML endpoint
-router.get('/', (req, res) => {
-	if (req.xhr) {
-		return write(res, JSON.stringify(database.list()));
-	}
-
-	res.redirect('/views/list');
-});
-
-router.get('/:id', (req, res) => {
-	if (req.xhr) {
-		getOr404(req, res, todo => JSON.stringify(todo));
-	} else {
-		res.redirect(`/views/show/${req.params.id}`);
-	}
-});
-
+// these are, oddly, both potentially a RESTful and also a HTML endpoint
+router.get('/', (req, res) => res.redirect('/views/list'));
+router.get('/:id', (req, res) => res.redirect(`/views/show/${req.params.id}`));
 
 // non HTML returning routes
 router.post('/', (req, res) => {
-	console.log(`POST body ${JSON.stringify(req.body)}`);
 	const todo = req.body;
 	const id = database.add(todo);
 	res.redirect(`/${id}`);
