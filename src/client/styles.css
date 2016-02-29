@@ -1,0 +1,112 @@
+* {
+	box-sizing: border-box;
+    font-family: "Helvetica Neue";
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    background: #f5f5f5;
+    font-size: 16px;
+}
+
+#container {
+    width: 100%;
+    max-width: 30em;
+    margin: 0 auto;
+}
+
+#container a {
+    font-size: .9em;
+    text-decoration: none;
+    padding: 0 .25em;
+}
+
+h1 {
+    text-align: center;
+    font-size: 6em;
+    font-weight: 100;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.todos-list {
+    padding: 0;
+    font-size: 24px;
+    font-weight: 300;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    border: none;
+}    
+
+.todo {
+    margin: 0;
+    padding: .5em;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.todo a {
+    margin-right: .5em;
+}
+
+.todo span.text {
+    vertical-align: middle;
+    margin-left: 1em;
+}
+
+.todo input[type="checkbox"] {
+    -webkit-appearance: none;
+    border: 1px solid #CCC;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.todo input[type="checkbox"][disabled] {
+	border: none;
+}
+
+.todo input[type="checkbox"]:checked::after {
+	position: relative;
+	content:'\2714';
+	color: green;
+	font-size: 40px;
+	left: 8px;
+	top: -8px;
+	padding: 0;
+	margin: 0 auto;
+}
+
+.actions {
+    position: absolute;
+    right: 0;
+    top: calc(50% - 15px);
+}
+
+.todo input[type="text"] {
+    font-size: 24px;
+    margin-left: .5em;
+    border: none;
+    padding: .25em 0 .25em .5em;
+    vertical-align: middle;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+}
+
+.todo-single .todo {
+    border-bottom: none;
+}
+
+.todo-form input[type="submit"], .todo-form a {
+    border: none;
+    background: transparent;
+    border: 1px solid #ccc;
+    border-radius: .5em;
+    font-size: .9em;
+    padding: .25em;
+}
+

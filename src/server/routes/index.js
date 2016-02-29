@@ -2,6 +2,7 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import { Router } from 'express';
 import { renderToString } from 'react-dom/server';
 import * as database from '../data/index';
+import Template from '../../universal/react/pages/template';
 import { ListPage, CreatePage, ViewPage, DeletePage, UpdatePage } from '../../universal/react/pages/todo';
 
 const router = Router();
@@ -25,12 +26,15 @@ const getOr404 = (req, res, fn) => {
 	return notfound(res);
 };
 
+const wrap = (Component, title="") => <Template stylesheet="/static/styles.css" title={title}>{Component}</Template>;
+const render = (Component, title="") => `<!DOCTYPE HTML>${renderToString(wrap(Component, title))}`;
+
 // these are purely HTML endpoints
-router.get('/views/show/:id', (req, res) => getOr404(req, res, todo => renderToString(<ViewPage {...todo} />)));
-router.get('/views/update/:id', (req, res) => getOr404(req, res, todo => renderToString(<UpdatePage {...todo} />)));
-router.get('/views/create', (req, res) => write(res, renderToString(<CreatePage />)));
-router.get('/views/delete/:id', (req, res) => getOr404(req, res, todo => renderToString(<DeletePage {...todo} />)));
-router.get('/views/list', (req, res) => write(res, renderToString(<ListPage todos={database.list()} />)));
+router.get('/views/show/:id', (req, res) => getOr404(req, res, todo => render(<ViewPage {...todo} />, `view ${req.params.id}`)));
+router.get('/views/update/:id', (req, res) => getOr404(req, res, todo => render(<UpdatePage {...todo} />, `update ${req.params.id}`)));
+router.get('/views/create', (req, res) => write(res, render(<CreatePage />, `create`)));
+router.get('/views/delete/:id', (req, res) => getOr404(req, res, todo => render(<DeletePage {...todo} />, `delete ${req.params.id}`)));
+router.get('/views/list', (req, res) => write(res, render(<ListPage todos={database.list()} />, `todos`)));
 
 // these are, oddly, both potentially a RESTful and also a HTML endpoint
 router.get('/', (req, res) => res.redirect('/views/list'));

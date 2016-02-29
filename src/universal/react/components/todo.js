@@ -15,6 +15,7 @@ const Todo = React.createClass({
 			<input type="checkbox" name="status" defaultChecked={isChecked} value="DONE" disabled={!props.editable} />
 			{ props.editable ? <input type="hidden" name="id" value={props.id} /> : null }
 			{ props.editable ? <input type="text" name="text" defaultValue={props.text} /> : <span className="text">{props.text}</span> }
+			{ this.props.children ? <div className="actions">{this.props.children}</div> : null }
 		</div>);
 
 	}

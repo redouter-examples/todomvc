@@ -6,7 +6,6 @@ const CreatePage = React.createClass({
 	render: function() {
 		const props = this.props;
 		return (<div className="todo-single todo-create">
-			<h1>Create Todo</h1>
 			<form className="todo-form" method="post" action="/">
 				<Todo {...props} editable={true} />
 				<input type="submit" value="Create"/>

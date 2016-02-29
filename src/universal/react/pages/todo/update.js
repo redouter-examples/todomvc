@@ -6,7 +6,6 @@ const UpdatePage = React.createClass({
 	render: function() {
 		const props = this.props;
 		return (<div className="todo-single todo-update">
-			<h1>Update todo {props.id}</h1>
 			<form className="todo-form" method="post" action={`/${props.id}?_method=put`}>
 				<Todo {...props} editable={true} />
 				<input type="submit" value="Update" />
