@@ -36,7 +36,7 @@ const get = id => {
 	}
 }
 
-const update = (id, { text, status }) => {
+const update = (id, { text, status = PENDING }) => {
 	const todo = get(id);
 	if (todo) {
 		todo.text = text;
@@ -51,9 +51,9 @@ const update = (id, { text, status }) => {
 	return todo;
 }
 
-const add = ({ text }) => {
+const add = ({ text, status = PENDING }) => {
 	const id = generateId();
-	todos.push({ id, text, status: PENDING });
+	todos.push({ id, text, status });
 	return id;
 }
 
@@ -62,7 +62,7 @@ const list = () => cloneDeep(todos);
 const remove = id => {
 	const index = findIndex(todos, {id});
 	let deleted;
-	if (index) {
+	if (index !== -1) {
 		deleted = todos.splice(index, 1);
 	} else {
 		console.warn(`Tried to delete a TODO that doesn't exist: ${id}`);

@@ -1,14 +1,17 @@
 import React from 'react';
 import Todo from '../../components/todo';
+import LinkButton from '../../components/linkbutton';
 
 const UpdatePage = React.createClass({
 	render: function() {
 		const props = this.props;
 		return (<div className="todo-single todo-update">
-			<h1>Update todo</h1>
-			<Todo {...props} mode="UPDATE" />
-			<button type="button">Update</button>
-			<button type="button">Cancel</button>
+			<h1>Update todo {props.id}</h1>
+			<form className="todo-form" method="post" action={`/${props.id}?_method=put`}>
+				<Todo {...props} editable={true} />
+				<input type="submit" value="Update" />
+				<LinkButton href="/">Cancel</LinkButton>
+			</form>
 		</div>);
 	}
 });
