@@ -8,8 +8,10 @@ const UpdatePage = React.createClass({
 		return (<div className="todo-single todo-update">
 			<form className="todo-form" method="post" action={`/${props.id}?_method=put`}>
 				<Todo {...props} editable={true} />
-				<input type="submit" value="Update" />
-				<LinkButton href="/">Cancel</LinkButton>
+				<div className="action-buttons">
+					<input type="submit" value="Update" />
+					<LinkButton href="/">Cancel</LinkButton>
+				</div>
 			</form>
 		</div>);
 	}

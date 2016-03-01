@@ -70,4 +70,15 @@ const remove = id => {
 	return deleted;
 };
 
-export { add, get, list, update, remove };
+const removeCompleted = () => {
+	// since todos is constant, simplest approach is for loop in reverse
+	for (let i = todos.length-1; i >= 0; i -= 1) {
+		if (todos[i].status === 'DONE') {
+			todos.splice(i, 1);
+		}
+	}
+
+	return todos;
+}
+
+export { add, get, list, update, remove, removeCompleted };

@@ -8,8 +8,10 @@ const CreatePage = React.createClass({
 		return (<div className="todo-single todo-create">
 			<form className="todo-form" method="post" action="/">
 				<Todo {...props} editable={true} />
-				<input type="submit" value="Create"/>
-				<LinkButton href="/">Cancel</LinkButton>
+				<div className="action-buttons">
+					<input type="submit" value="Create"/>
+					<LinkButton href="/">Cancel</LinkButton>
+				</div>
 			</form>
 		</div>);
 	}

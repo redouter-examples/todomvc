@@ -15,7 +15,7 @@ body {
     margin: 0 auto;
 }
 
-#container a {
+.todos-list a {
     font-size: .9em;
     text-decoration: none;
     padding: 0 .25em;
@@ -32,7 +32,7 @@ h1 {
     white-space: nowrap;
 }
 
-.todos-list {
+.todos-list, .todo-form, .todo-single {
     padding: 0;
     font-size: 24px;
     font-weight: 300;
@@ -46,6 +46,11 @@ h1 {
     padding: .5em;
     border-bottom: 1px solid #ccc;
     position: relative;
+}
+
+.todo.done span.text {
+    text-decoration: line-through;
+
 }
 
 .todo a {
@@ -66,8 +71,8 @@ h1 {
     vertical-align: middle;
 }
 
-.todo input[type="checkbox"][disabled] {
-	border: none;
+.todo input[type="checkbox"]:disabled {
+	border: 1px dashed #ddd;
 }
 
 .todo input[type="checkbox"]:checked::after {
@@ -81,7 +86,7 @@ h1 {
 	margin: 0 auto;
 }
 
-.actions {
+.todos-list-item .actions {
     position: absolute;
     right: 0;
     top: calc(50% - 15px);
@@ -89,6 +94,7 @@ h1 {
 
 .todo input[type="text"] {
     font-size: 24px;
+    font-weight: 300;
     margin-left: .5em;
     border: none;
     padding: .25em 0 .25em .5em;
@@ -101,12 +107,84 @@ h1 {
     border-bottom: none;
 }
 
-.todo-form input[type="submit"], .todo-form a {
-    border: none;
-    background: transparent;
-    border: 1px solid #ccc;
-    border-radius: .5em;
-    font-size: .9em;
-    padding: .25em;
+.action-buttons {
+    padding: .5em 0 .5em;
+    display: block;
+    clear: both;
+    float: none;
+    width: 100%;
+    text-align: center;
 }
 
+.action-buttons input[type="submit"], .action-buttons a {
+    border: 1px solid transparent;
+    background: #eee;
+    border-radius: .25em;
+    font-size: .8em;
+    padding: .25em .5em;
+    margin-right: .5em;
+    font-weight: 300;
+    line-height: 1.2;
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.action-buttons a:hover, .action-buttons a:focus, .action-buttons input[type="submit"]:hover, .action-buttons input[type="submit"]:focus {
+    text-decoration: underline;
+}
+
+.action-buttons input[type="submit"] {
+    background: rgb(14,122,254);
+    color: #fff;
+}
+
+.action-buttons a {
+    background: #eee;
+    color: black;
+}
+
+.todos-list-footer {
+    position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.summary {
+    position: absolute;
+    left: 1rem;
+    top: 1em;
+    font-size: 14px;
+    color: #999;
+}
+
+.filter-buttons {
+    display: block;
+    width: 100%;
+    padding-top: .25em;
+    padding-bottom: .5em;
+    background: #fefef3;
+}
+
+.filter-buttons > a {
+    font-size: 14px;
+    background: none;
+    color: #999;
+
+}
+
+.filter-buttons > a.active-filter {
+    border: 1px solid #999;
+    border-radius: .5em;
+}
+
+.todos-list-footer .action-buttons {
+    font-size: 20px;
+    background-color: #fefef3;
+    margin-bottom: 0;
+    letter-spacing: 0.3px;
+}
+
+.todos-list-footer .action-buttons a {
+    background: #333;
+    color: white;
+}

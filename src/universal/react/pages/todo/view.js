@@ -7,7 +7,9 @@ const ViewPage = React.createClass({
 		const props = this.props;
 		return (<div className="todo-single todo-view">
 			<Todo {...props} />
-			<LinkButton href="/">Back to list</LinkButton>
+			<div className="action-buttons">
+				<LinkButton href="/">Back to list</LinkButton>
+			</div>
 		</div>);
 	}
 });

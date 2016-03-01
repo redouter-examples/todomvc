@@ -34,7 +34,23 @@ router.get('/views/show/:id', (req, res) => getOr404(req, res, todo => render(<V
 router.get('/views/update/:id', (req, res) => getOr404(req, res, todo => render(<UpdatePage {...todo} />, `update ${req.params.id}`)));
 router.get('/views/create', (req, res) => write(res, render(<CreatePage />, `create`)));
 router.get('/views/delete/:id', (req, res) => getOr404(req, res, todo => render(<DeletePage {...todo} />, `delete ${req.params.id}`)));
-router.get('/views/list', (req, res) => write(res, render(<ListPage todos={database.list()} />, `todos`)));
+router.get('/views/list/:filter?', (req, res) => {
+	const filter = req.params.filter;
+	const todos = database.list();
+	const pendingCount = todos.reduce((acc, todo) => acc + (todo.status === 'PENDING' ? 1 : 0), 0)
+	write(res, render(<ListPage 
+		filter={filter}
+		pendingCount={pendingCount}
+		todos={todos.filter(todo => filter === undefined || todo.status === filter)} />
+	, `todos`));
+});
+
+// these are custom business logic endpoints
+// WARNING: This shouldn't be a get, but I'm lazy
+router.get('/actions/clearcompleted', (req, res) => {
+	database.removeCompleted();
+	res.redirect('/views/list');
+});
 
 // these are, oddly, both potentially a RESTful and also a HTML endpoint
 router.get('/', (req, res) => res.redirect('/views/list'));

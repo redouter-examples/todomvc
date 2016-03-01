@@ -8,8 +8,10 @@ const DeletePage = React.createClass({
 		return (<div className="todo-single todo-delete">
 			<form className="todo-form" method="post" action={`/${props.id}?_method=delete`}>
 				<Todo {...props} />
-				<input type="submit" value="Confirm" />
-				<LinkButton href="/">Cancel</LinkButton>
+				<div className="action-buttons">
+					<input type="submit" value="Confirm" />
+					<LinkButton href="/">Cancel</LinkButton>
+				</div>
 			</form>
 		</div>);
 	}
