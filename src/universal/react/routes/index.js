@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; // eslint-disable-line no-unused-vars
 import { Route } from 'react-router';
 import Template from '../pages/template';
 import { CreatePage, DeletePage, ListPage, UpdatePage, ViewPage } from '../pages/todo';
