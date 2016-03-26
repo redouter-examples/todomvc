@@ -1,9 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
-import routes from './server/routes/index';
+import routes from './server/routes/index2';
+
+// react stuff
 import reactRoutes from './universal/react/routes/index';
 import { server } from 'redouter';
+import rootReducer from './universal/redux/root';
 
 const app = express();
 
@@ -13,10 +16,14 @@ app.use(methodOverride('_method')); // because HTML, even 5, doesn't support for
 
 // insert redouter middleware
 app.use(server.redouter({
-	rootReducer: (state /*, action */) => state, // for now
-	initialState: {},
+	rootReducer,
 	routes: reactRoutes,
-	templater: (html/*, store */) => `<!doctype html>${html}`
+	templater: (html, store) => `
+<!doctype html>
+${html}
+<script>window.__INITIAL_STATE__ = '${JSON.stringify(store.getState())}'</script>
+<script src="/static/bundlex.js"></script>
+`
 }));
 app.use(routes);
 

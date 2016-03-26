@@ -2,6 +2,7 @@ import React from 'react';
 import Todo from '../../components/todo';
 import LinkButton from '../../components/linkbutton';
 import classnames from 'classnames';
+import { connect } from 'react-redux';
 
 const ListPage = React.createClass({
 	render: function() {
@@ -40,4 +41,7 @@ const ListPage = React.createClass({
 	}
 });
 
-export { ListPage };
+const mapping = ({ todos, meta: { filter, pendingCount } }) => ({ todos, filter, pendingCount });
+const mapped = connect(mapping)(ListPage);
+
+export { mapped as ListPage };

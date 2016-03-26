@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from '../../components/todo';
 import LinkButton from '../../components/linkbutton';
+import { connect } from 'react-redux';
 
 const UpdatePage = React.createClass({
 	render: function() {
@@ -17,4 +18,7 @@ const UpdatePage = React.createClass({
 	}
 });
 
-export { UpdatePage };
+const mapping = ({todo}) => ({...todo});
+const mapped = connect(mapping)(UpdatePage);
+
+export { mapped as UpdatePage };

@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from '../../components/todo';
 import LinkButton from '../../components/linkbutton';
+import { connect } from 'react-redux';
 
 const ViewPage = React.createClass({
 	render: function() {
@@ -14,4 +15,7 @@ const ViewPage = React.createClass({
 	}
 });
 
-export { ViewPage };
+const mapping = ({todo}) => ({...todo});
+const mapped = connect(mapping)(ViewPage);
+
+export { mapped as ViewPage };

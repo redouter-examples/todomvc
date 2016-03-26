@@ -1,6 +1,7 @@
 import React from 'react';
 import Todo from '../../components/todo';
 import LinkButton from '../../components/linkbutton';
+import { connect } from 'react-redux';
 
 const DeletePage = React.createClass({
 	render: function() {
@@ -17,4 +18,7 @@ const DeletePage = React.createClass({
 	}
 });
 
-export { DeletePage };
+const mapping = ({ todo }) => ({ ...todo });
+const mapped = connect(mapping)(DeletePage);
+
+export { mapped as DeletePage };

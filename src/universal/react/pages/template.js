@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 const Template = React.createClass({
 	render() {
@@ -22,4 +23,5 @@ const Template = React.createClass({
 	}
 });
 
-export default Template;
+const mapping = ({page: { title, stylesheet, script }}) => ({title, stylesheet, script});
+export default connect(mapping)(Template);
