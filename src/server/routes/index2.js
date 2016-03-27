@@ -59,14 +59,14 @@ router.get('/:id', (req, res) => res.universalRedirect(`/views/show/${req.params
 
 // non HTML returning routes
 router.post('/', (req, res) => {
-	const todo = req.body;
+	const todo = req.action.body;
 	const id = database.add(todo);
 	res.universalRedirect(`/${id}`);
 })
 
 router.put('/:id', (req, res) => {
 	const { id } = req.params;
-	const { text, status } = req.body;
+	const { text, status } = req.action.body;
 	const todo = database.update(id, { text, status });
 
 	if (todo.id) {

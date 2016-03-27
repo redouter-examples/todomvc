@@ -14,6 +14,7 @@ const app = express();
 app.use(favicon(`./src/client/todo.png`));
 app.use('/static', express.static('./src/client'));
 app.use(bodyParser.urlencoded({extended: true})); // basic HTML form POST
+app.use(bodyParser.json());
 app.use(methodOverride('_method')); // because HTML, even 5, doesn't support form actions other than GET and POST
 
 // insert redouter middleware
