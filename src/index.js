@@ -21,9 +21,10 @@ app.use(server.redouter({
 	rootReducer,
 	routes: reactRoutes,
 	templater: (html, store) => `
+<!DOCTYPE HTML>
 ${html}
-<script>window.__INITIAL_STATE__ = ${JSON.stringify(store.getState())}</script>
-<script src="/static/bundle.js"></script>
+ <script>window.__INITIAL_STATE__ = ${JSON.stringify(store.getState())}</script>
+ <script async src="/static/bundle.js"></script>
 `
 }));
 app.use(routes);
