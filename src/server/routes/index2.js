@@ -26,7 +26,7 @@ router.get('/views/update/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TITLE', payload: `update ${req.params.id}`});
 }));
 
-router.get('/views/create/:id', (req, res) => res.universalRender());
+router.get('/views/create', (req, res) => res.universalRender());
 router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
 	res.dispatch({type: 'SET_TITLE', payload: `delete ${req.params.id}`});

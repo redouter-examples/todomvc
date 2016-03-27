@@ -18,8 +18,8 @@ const ListPage = React.createClass({
 				props.todos.map(({id, text, status}) => (
 					<div key={id} className="todos-list-item" tabIndex="0">
 						<Todo id={id} text={text} status={status}>
-							<LinkButton href={`/views/delete/${id}`}>Del</LinkButton>
-							<LinkButton href={`/views/update/${id}`}>Edit</LinkButton>
+							<LinkButton to={`/views/delete/${id}`}>Del</LinkButton>
+							<LinkButton to={`/views/update/${id}`}>Edit</LinkButton>
 						</Todo>
 					</div>
 				))
@@ -27,13 +27,13 @@ const ListPage = React.createClass({
 			<div className="todos-list-footer action-buttons">
 				<span className="summary">{props.pendingCount} {props.pendingCount === 1 ? 'item' : 'items' } left</span>
 				<div className="filter-buttons">
-					<LinkButton className={filterClass.all} href={`/views/list`}>All</LinkButton>
-					<LinkButton className={filterClass.PENDING} href={`/views/list/PENDING`}>Active</LinkButton>
-					<LinkButton className={filterClass.DONE} href={`/views/list/DONE`}>Completed</LinkButton>
+					<LinkButton className={filterClass.all} to={`/views/list`}>All</LinkButton>
+					<LinkButton className={filterClass.PENDING} to={`/views/list/PENDING`}>Active</LinkButton>
+					<LinkButton className={filterClass.DONE} to={`/views/list/DONE`}>Completed</LinkButton>
 				</div>
 				<div className="action-buttons">
-					<LinkButton href={`/views/create`}>Create</LinkButton>
-					<LinkButton href={`/actions/clearCompleted`}>Clear Completed</LinkButton>
+					<LinkButton to={`/views/create`}>Create</LinkButton>
+					<LinkButton to={`/actions/clearCompleted`}>Clear Completed</LinkButton>
 				</div>
 			</div>
 

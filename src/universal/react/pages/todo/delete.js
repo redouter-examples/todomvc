@@ -11,7 +11,7 @@ const DeletePage = React.createClass({
 				<Todo {...props} />
 				<div className="action-buttons">
 					<input type="submit" value="Confirm" />
-					<LinkButton href="/">Cancel</LinkButton>
+					<LinkButton to="/">Cancel</LinkButton>
 				</div>
 			</form>
 		</div>);

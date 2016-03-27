@@ -10,7 +10,7 @@ const CreatePage = React.createClass({
 				<Todo {...props} editable={true} />
 				<div className="action-buttons">
 					<input type="submit" value="Create"/>
-					<LinkButton href="/">Cancel</LinkButton>
+					<LinkButton to="/">Cancel</LinkButton>
 				</div>
 			</form>
 		</div>);

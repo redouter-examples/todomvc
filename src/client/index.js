@@ -15,6 +15,9 @@ const store = universal.createStore(
 
 client.routeTrigger(history, store);
 
+// for debugging
+window.store = store;
+
 universal.createRouterComponent(routes, history, (err, Component) => {
 	if (err) {
 		console.error(err);
