@@ -1,6 +1,85 @@
 // root reducer
-import { cloneDeep /*, findIndex */ } from 'lodash';
+import { cloneDeep } from 'lodash';
+import { combineReducers } from 'redux';
+import { isRouteAction } from 'route-action';
 
+const reducerMap = {
+	__requests__: function(state = {}, action) {
+		const newState = cloneDeep(state);
+		if (isRouteAction(action) && action.method === 'GET') {
+			const { url, statusCode } = action;
+			const timestamp = (new Date()).getTime();
+			const freshness = newState[url] = newState[url] || {};
+
+			switch (statusCode) {
+				case 102:
+					freshness.state = 'pending';
+					break;
+
+				case 500:
+					freshness.state = 'failure';
+					freshness.timestamp = timestamp;
+					break;
+
+				case 200:
+					freshness.state = 'success';
+					freshness.timestamp = timestamp;
+					break;
+			}
+
+			return newState;
+		}
+
+		return state;
+	},
+	__location__: function(state = {}, action) {
+		if (isRouteAction(action) && action.method === 'GET') {
+			return { path: action.url };
+		}
+		return state;
+	},
+	todo: function(state = {}, action) {
+		switch (action.type) {
+			case 'SET_TODO': return cloneDeep(action.payload);
+		}
+		return state;
+	},
+	todos: function(state = [], action) {
+		switch (action.type) {
+			case 'SET_TODOS': return cloneDeep(action.payload);
+		}
+		return state;
+	},
+	page: function(state = {}, action) {
+		const newState = cloneDeep(state);
+		switch (action.type) {
+			case 'SET_PAGE':
+				Object.assign(newState, { stylesheet: '/static/styles.css' }, action.payload);
+				return newState;
+		}
+
+		return state;
+	},
+	meta: function(state = {}, action) {
+		const newState = cloneDeep(state);
+		switch (action.type) {
+			case 'SET_META':
+				Object.assign(newState, action.payload);
+				return newState;
+
+			case 'CELAR_FILTER':
+				delete newState.filter;
+				return newState;
+		}
+
+		return state;
+	}
+
+};
+
+export default (state = {}, action) => combineReducers(reducerMap)(state, action);
+
+/*
 const INITIAL = {
 	page: {
 		title: 'Todo App',
@@ -29,15 +108,6 @@ const INITIAL = {
 	
 }
 
-/*
-function findAndPerform(todos, id, fn) {
-	const index = findIndex(todos, id);
-	if (index !== -1) {
-		fn(todos, index);
-	}
-}
-*/
-
 // feels like a clone of server/data/index
 export default function rootReducer(state = INITIAL, action) {
 
@@ -51,20 +121,6 @@ export default function rootReducer(state = INITIAL, action) {
 		case 'SET_TODOS':
 			newState.todos = action.payload;
 			break;
-
-		/*
-		case 'DELETE_TODO':
-			findAndPerform(newState.todos, action.payload.id, (todos, index) => todos.splice(index, 1));
-			break;
-	
-		case 'ADD_TODO':
-			newState.todos.push(action.payload);
-			break;
-
-		case 'UPDATE_TODO':
-			findAndPerform(newState.todos, action.payload.id, (todos, index) => todos.splice(index, 1));
-			break;
-		*/
 
 		case 'SET_TITLE':
 			newState.page.title = action.payload;
@@ -92,3 +148,4 @@ export default function rootReducer(state = INITIAL, action) {
 
 	return newState;
 }
+*/

@@ -40,7 +40,6 @@ function serialize(form) {
     return obj;
 }
 
-// TODO: The props from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form should be inherited
 export default connect()(React.createClass({
 	onSubmit(e) {
 		// dumb form serialization

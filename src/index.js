@@ -8,6 +8,7 @@ import routes from './server/routes/index2';
 import reactRoutes from './universal/react/routes/index';
 import { server } from 'redouter';
 import rootReducer from './universal/redux/root';
+import createElement from './universal/react/createElement';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(methodOverride('_method')); // because HTML, even 5, doesn't support for
 app.use(server.redouter({
 	rootReducer,
 	routes: reactRoutes,
+	createElement,
 	templater: (html, store) => `
 <!DOCTYPE HTML>
 ${html}

@@ -18,18 +18,18 @@ const getTodo = (req, res, fn) => {
 
 router.get('/views/show/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
-	res.dispatch({type: 'SET_TITLE', payload: `view ${req.params.id}`});
+	res.dispatch({type: 'SET_PAGE', payload: { title: `view ${req.params.id}`} });
 }));
 
 router.get('/views/update/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
-	res.dispatch({type: 'SET_TITLE', payload: `update ${req.params.id}`});
+	res.dispatch({type: 'SET_PAGE', payload: { title: `update ${req.params.id}`}});
 }));
 
 router.get('/views/create', (req, res) => res.universalRender());
 router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
-	res.dispatch({type: 'SET_TITLE', payload: `delete ${req.params.id}`});
+	res.dispatch({type: 'SET_PAGE', payload: { title: `delete ${req.params.id}`}});
 }));
 
 router.get('/views/list/:filter?', (req, res) => {
@@ -37,12 +37,9 @@ router.get('/views/list/:filter?', (req, res) => {
 	const todos = database.list();
 	const pendingCount = todos.reduce((acc, todo) => acc + (todo.status === 'PENDING' ? 1 : 0), 0);
 
-	res.dispatch({type: 'SET_PENDING_COUNT', payload: pendingCount});
-	if (filter) {
-		res.dispatch({type: 'SET_FILTER', payload: filter});
-	}
+	res.dispatch({type: 'SET_META', payload: { pendingCount, filter } });
 	res.dispatch({type: 'SET_TODOS', payload: todos.filter(todo => filter === undefined || todo.status === filter)});
-	res.dispatch({type: 'SET_TITLE', payload: `todos`});
+	res.dispatch({type: 'SET_PAGE', payload: { title: `todos`} });
 	res.universalRender();
 });
 
