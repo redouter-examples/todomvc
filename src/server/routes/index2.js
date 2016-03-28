@@ -6,14 +6,17 @@ const router = Router();
 
 const getTodo = (req, res, fn) => {
 	const { id } = req.params;
-	const todo = database.get(id);
 
-	if (todo) {
-		fn(todo);
-		return res.universalRender();
-	} else {
-		res.status(404);
-	}
+	setTimeout(() => {
+		const todo = database.get(id);
+
+		if (todo) {
+			fn(todo);
+			return res.universalRender();
+		} else {
+			res.status(404);
+		}
+	}, 1000);
 };
 
 router.get('/views/show/:id', (req, res) => getTodo(req, res, todo => {
