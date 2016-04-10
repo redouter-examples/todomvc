@@ -2,12 +2,15 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import { Router } from 'express';
 import * as database from '../data/index';
 
+const SIMULATED_DELAY = 1000;
+const delay = duration => fn => setTimeout(fn, duration);
+const weit = delay(SIMULATED_DELAY);
+
 const router = Router();
 
 const getTodo = (req, res, fn) => {
 	const { id } = req.params;
-
-	setTimeout(() => {
+	weit(() => {
 		const todo = database.get(id);
 
 		if (todo) {
@@ -16,7 +19,7 @@ const getTodo = (req, res, fn) => {
 		} else {
 			res.status(404);
 		}
-	}, 1000);
+	});
 };
 
 router.get('/views/show/:id', (req, res) => getTodo(req, res, todo => {
@@ -40,6 +43,7 @@ router.get('/views/list/:filter?', (req, res) => {
 	const todos = database.list();
 	const pendingCount = todos.reduce((acc, todo) => acc + (todo.status === 'PENDING' ? 1 : 0), 0);
 
+	res.dispatch({type: 'CLEAR_FILTER'});
 	res.dispatch({type: 'SET_META', payload: { pendingCount, filter } });
 	res.dispatch({type: 'SET_TODOS', payload: todos.filter(todo => filter === undefined || todo.status === filter)});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `todos`} });

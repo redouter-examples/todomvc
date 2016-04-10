@@ -188,3 +188,15 @@ h1 {
     background: #333;
     color: white;
 }
+
+.double-bounce.spinner {
+    width: 30em;
+    height: 30em;
+}
+
+.double-bounce.spinner > .double-bounce1, .double-bounce.spinner > .double-bounce2 {
+    width: 10%;
+    height: 10%;
+    top: 45%;
+    left: 45%;
+}

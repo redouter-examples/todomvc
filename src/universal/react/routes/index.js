@@ -4,7 +4,7 @@ import Template from '../pages/template';
 import { CreatePage, DeletePage, ListPage, UpdatePage, ViewPage } from '../pages/todo';
 
 export default (
-	<Route path="/" component={Template}>
+	<Route path="/" weit={false} component={Template}>
 		<Route path="views/show/:id" component={ViewPage} />
 		<Route path="views/update/:id" component={UpdatePage} />
 		<Route path="views/create" component={CreatePage} />

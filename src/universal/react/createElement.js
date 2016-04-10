@@ -6,7 +6,7 @@ import Spinner from 'react-spinkit';
 const mapping = ({ __requests__, __location__ }) => ({ requests: __requests__, location: __location__ });
 
 const experiment = (Component, outerProps) => {
-	const { route: { path: routePattern }, location: { pathname }, routeParams } = outerProps;
+	const { route: { weit = true } } = outerProps;
 	const Weiting = connect(mapping)(React.createClass({
 		render() {
 
@@ -26,10 +26,8 @@ const experiment = (Component, outerProps) => {
 		}
 	}));
 
-	// we only apply the weiting effect if the componentPath matches the current
-	// location
-	// simple hack for now
-	return routePattern === '/' ? <Component {...outerProps} /> : <Weiting />;
+	// if a route has a weit={false}, then it is always rendered without waiting for the AJAX call to complete.
+	return !weit ? <Component {...outerProps} /> : <Weiting />;
 }
 
 export default (Component, props) => experiment(Component, props);

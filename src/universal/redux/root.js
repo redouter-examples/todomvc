@@ -40,34 +40,31 @@ const reducerMap = {
 	},
 	todo: function(state = {}, action) {
 		switch (action.type) {
-			case 'SET_TODO': return cloneDeep(action.payload);
+			case 'SET_TODO': return { ...action.payload };
 		}
 		return state;
 	},
 	todos: function(state = [], action) {
 		switch (action.type) {
-			case 'SET_TODOS': return cloneDeep(action.payload);
+			case 'SET_TODOS': return [ ...action.payload ];
 		}
 		return state;
 	},
 	page: function(state = {}, action) {
-		const newState = cloneDeep(state);
 		switch (action.type) {
 			case 'SET_PAGE':
-				Object.assign(newState, { stylesheet: '/static/styles.css' }, action.payload);
-				return newState;
+				return { ...state, stylesheet: '/static/styles.css', ...action.payload };
 		}
 
 		return state;
 	},
 	meta: function(state = {}, action) {
-		const newState = cloneDeep(state);
 		switch (action.type) {
 			case 'SET_META':
-				Object.assign(newState, action.payload);
-				return newState;
+				return { state, ...action.payload };
 
 			case 'CELAR_FILTER':
+				const newState = cloneDeep(state);
 				delete newState.filter;
 				return newState;
 		}

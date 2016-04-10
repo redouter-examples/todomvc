@@ -8,6 +8,7 @@
     "dev": "nodemon --exec npm start",
     "lint": "eslint src/*",
     "build": "webpack",
+    "nuke": "rm -rf node_modules/; npm i",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Benjamin Goh <masotime@gmail.com>",
@@ -31,6 +32,7 @@
     "express": "^4.13.4",
     "history": "^2.0.1",
     "invariant": "^2.2.0",
+    "json-stringify-safe": "^5.0.1",
     "lodash": "^4.5.1",
     "method-override": "^2.3.5",
     "query-string": "^3.0.1",
