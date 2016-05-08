@@ -39,7 +39,7 @@ h1 {
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
     border: none;
-}    
+}
 
 .todo {
     margin: 0;
@@ -64,6 +64,7 @@ h1 {
 
 .todo input[type="checkbox"] {
     -webkit-appearance: none;
+    background: transparent;
     border: 1px solid #CCC;
     width: 40px;
     height: 40px;
@@ -73,13 +74,14 @@ h1 {
 
 .todo input[type="checkbox"]:disabled {
 	border: 1px dashed #ddd;
+    border: 1px solid transparent;
 }
 
 .todo input[type="checkbox"]:checked::after {
 	position: relative;
 	content:'\2714';
-	color: green;
-	font-size: 40px;
+	color: green !important;
+	font-size: 40px !important;
 	left: 8px;
 	top: -8px;
 	padding: 0;
@@ -92,6 +94,18 @@ h1 {
     top: calc(50% - 15px);
 }
 
+.todos-list-item.todos-create {
+    box-shadow: inset 0 -2px 2px -2px #333;
+}
+
+.todos-list-item.todos-create .inline-form .todo input[type="text"],
+.todos-list-item.todos-create .inline-form .todo input[type="text"]:focus {
+    margin-left: calc(1em + 40px);
+    padding-left: 4px; /* magic number, fix later */
+    width: calc(100% - 1em - 40px);
+    border-bottom: 1px solid transparent;
+}
+
 .todo input[type="text"] {
     font-size: 24px;
     font-weight: 300;
@@ -101,6 +115,22 @@ h1 {
     vertical-align: middle;
     background: transparent;
     border-bottom: 1px solid #ccc;
+}
+
+.inline-form .todo input[type="text"] {
+    border-bottom: none;
+}
+
+.inline-form .todo input[type="text"]:focus {
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+.inline-form button {
+    border: none;
+    background: transparent;
+    font-size: .9em;
+    cursor: pointer;
 }
 
 .todo-single .todo {

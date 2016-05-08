@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import favicon from 'serve-favicon';
-import routes from './server/routes/index2';
+import inlineRoutes from './server/routes/inline';
+import staticRoutes from './server/routes/static';
 
 // react stuff
 import reactRoutes from './universal/react/routes/index';
@@ -14,9 +15,10 @@ const app = express();
 
 app.use(favicon(`./src/client/todo.png`));
 app.use('/static', express.static('./src/client'));
-app.use(bodyParser.urlencoded({extended: true})); // basic HTML form POST
-app.use(bodyParser.json());
-app.use(methodOverride('_method')); // because HTML, even 5, doesn't support form actions other than GET and POST
+app.use(bodyParser.urlencoded({extended: true})); // basic HTML form POST encoding
+app.use(bodyParser.json()); // AJAX JSON encoding
+
+app.use(methodOverride('_method')); // allow HTML form to work with methods other than GET and POST
 
 // insert redouter middleware
 app.use(server.redouter({
@@ -30,7 +32,9 @@ ${html}
  <script async src="/static/bundle.js"></script>
 `
 }));
-app.use(routes);
+
+app.use(inlineRoutes);
+app.use(staticRoutes);
 
 const serverInstance = app.listen(process.env.PORT || 3000, () => {
 	const { address, family, port } = serverInstance.address();

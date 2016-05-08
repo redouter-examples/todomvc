@@ -15,17 +15,17 @@ function validStatus(status) {
 }
 
 const todos = [
-	{ 
-		id: 'apple',
-		text: 'Buy apples',
-		status: DONE
-	},
-	{
-		id: 'banana',
-		text: 'Pay the rent',
-		status: PENDING
-	}
-];
+	'Buy groceries',
+	'Pay the rent',
+	'Have tea with the Queen',
+	'Circumnavigate the globe',
+	'Race a cheetah',
+	'Climb Mount Everest'
+].map(
+	(text, idx) => ({
+		id: idx.toString(), text, status: Math.random() > 0.5 ? DONE : PENDING
+	})
+);
 
 const get = id => {
 	const todo = find(todos, {id});

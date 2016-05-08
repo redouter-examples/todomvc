@@ -41,26 +41,39 @@ function serialize(form) {
 }
 
 export default connect()(React.createClass({
+    onClick(e) {
+        // trace the element which triggered a submit
+        this.lastClick = e.target;
+    },
 	onSubmit(e) {
 		// dumb form serialization
 		e.preventDefault();
-		const url = e.target.action;
+
+		const url = this.lastClick.getAttribute('formaction') || e.target.action;
 		const body = serialize(e.target);
-		this.props.dispatch(POST({ url, body }));
+        const action = POST({url, body});
+
+        // run any predefined onSubmit handler first. Instead of passing the event,
+        // we pass in the serialized body
+        const { props } = this;
+        if (!props.onSubmit || props.onSubmit && props.onSubmit(body)) {
+            props.dispatch(action);
+        }
 	},
 	render() {
-		const { props, onSubmit } = this;
+		const { props, onSubmit, onClick } = this;
 
 		return (<form 
 			className={props.className}
 			action={props.action}
-			autocomplete={props.autocomplete}
-			enctype={props.enctype}
+			autoComplete={props.autocomplete}
+			encType={props.enctype}
 			method={props.method}
 			name={props.name}
-			novalidate={props.novalidate}
+			noValidate={props.novalidate}
 			target={props.target}
 			onSubmit={onSubmit}
+            onClick={onClick}
 		>{props.children}</form>);
 
 	}

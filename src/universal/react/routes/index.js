@@ -9,8 +9,7 @@ export default (
 		<Route path="views/update/:id" component={UpdatePage} />
 		<Route path="views/create" component={CreatePage} />
 		<Route path="views/delete/:id" component={DeletePage} />
-		<Route path="views/list" component={ListPage} />
-		<Route path="views/list/:filter" component={ListPage} />
+		<Route path="views/list" weit={false} component={ListPage} />
 		<Redirect from=":id" to="views/show/:id" />
 	</Route>
 );
