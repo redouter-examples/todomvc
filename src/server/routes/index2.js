@@ -39,12 +39,13 @@ router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
 }));
 
 router.get('/views/list/:filter?', (req, res) => {
-	const filter = req.params.filter;
+	const { filter } = req.params;
+	const { focus } = req.query;
 	const todos = database.list();
 	const pendingCount = todos.reduce((acc, todo) => acc + (todo.status === 'PENDING' ? 1 : 0), 0);
 
 	res.dispatch({type: 'CLEAR_FILTER'});
-	res.dispatch({type: 'SET_META', payload: { pendingCount, filter } });
+	res.dispatch({type: 'SET_META', payload: { pendingCount, filter, focus } });
 	res.dispatch({type: 'SET_TODOS', payload: todos.filter(todo => filter === undefined || todo.status === filter)});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `todos`} });
 	res.universalRender();
@@ -65,6 +66,7 @@ router.get('/:id', (req, res) => res.universalRedirect(`/views/show/${req.params
 router.post('/', (req, res) => {
 	const todo = req.action.body;
 	const id = database.add(todo);
+
 	res.universalRedirect(`/${id}`);
 })
 
@@ -85,6 +87,16 @@ router.delete('/:id', (req, res) => {
 	const { id } = req.params;
 	database.remove(id);
 	res.universalRedirect(`/`);
+});
+
+// inline routes
+router.post('/inline/', (req, res) => {
+	const todo = req.action.body;
+	const { filter } = req.query;
+
+	const id = database.add(todo);
+
+	res.universalRedirect(`/views/list/${filter}?focus=${id}`);
 });
 
 export default router;

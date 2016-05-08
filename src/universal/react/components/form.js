@@ -46,7 +46,8 @@ export default connect()(React.createClass({
 		e.preventDefault();
 		const url = e.target.action;
 		const body = serialize(e.target);
-		this.props.dispatch(POST({ url, body }));
+        const action = POST({url, body});
+		this.props.dispatch(action);
 	},
 	render() {
 		const { props, onSubmit } = this;

@@ -1,6 +1,8 @@
 // import { addLiveReload } from './src/build/webpack';
 import path from 'path';
 
+const babelLoaderPath = require.resolve('babel-loader');
+
 const BASE_CONFIG = {
 	entry: {
 		app: [
@@ -16,7 +18,7 @@ const BASE_CONFIG = {
 		loaders: [{
 			test: /.jsx?$/,
 			exclude: /node_modules/,
-			loader: 'babel'
+			loader: babelLoaderPath
 		},{
 	        test: /\.css$/,
 	        loader: 'style-loader!css-loader'

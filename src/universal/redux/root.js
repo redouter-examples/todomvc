@@ -6,10 +6,12 @@ import { isRouteAction } from 'route-action';
 const reducerMap = {
 	__requests__: function(state = {}, action) {
 		const newState = cloneDeep(state);
-		if (isRouteAction(action) && action.method === 'GET') {
+		if (isRouteAction(action) && action.method === 'GET' && action.statusCode !== 302 /* TODO: Fix this */) {
 			const { url, statusCode } = action;
 			const timestamp = (new Date()).getTime();
 			const freshness = newState[url] = newState[url] || {};
+
+			console.log(`GET ${url} statusCode ${statusCode}`);
 
 			switch (statusCode) {
 				case 102:
