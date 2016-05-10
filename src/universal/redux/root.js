@@ -65,13 +65,23 @@ const reducerMap = {
 			case 'SET_META':
 				return { state, ...action.payload };
 
-			case 'CELAR_FILTER':
+			case 'RESET_LIST':
 				const newState = cloneDeep(state);
 				delete newState.filter;
 				return newState;
 		}
 
 		return state;
+	},
+	editing: function(state = {}, action) {
+		switch (action.type) {
+			case 'EDITING':
+				return { ...action.payload };
+			case 'RESET_LIST':
+				return null;
+		}
+
+		return state; // no change
 	}
 
 };

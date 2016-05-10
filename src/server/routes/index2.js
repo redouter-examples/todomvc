@@ -38,17 +38,51 @@ router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_PAGE', payload: { title: `delete ${req.params.id}`}});
 }));
 
-router.get('/views/list/:filter?', (req, res) => {
-	const { filter } = req.params;
-	const { focus } = req.query;
+router.get('/views/list', (req, res) => {
+	const { filter, id } = req.query;
 	const todos = database.list();
 	const pendingCount = todos.reduce((acc, todo) => acc + (todo.status === 'PENDING' ? 1 : 0), 0);
 
-	res.dispatch({type: 'CLEAR_FILTER'});
-	res.dispatch({type: 'SET_META', payload: { pendingCount, filter, focus } });
+	res.dispatch({type: 'RESET_LIST'}); // not the most elegant solution. Hmmm...
+
+	if (id) {
+		const todo = database.get(id);
+		if (todo) {
+			res.dispatch({type: 'EDITING', payload: todo });
+		} else {
+			return res.status(404);
+		}
+	}
+	
+	res.dispatch({type: 'SET_META', payload: { pendingCount, filter } });
 	res.dispatch({type: 'SET_TODOS', payload: todos.filter(todo => filter === undefined || todo.status === filter)});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `todos`} });
 	res.universalRender();
+});
+
+// TODO: Fix with a generic querystring library later
+function getListUrl(filter) {
+	return filter ? `/views/list?filter=${filter}` : `/views/list`;
+}
+
+// inline update
+router.put('/views/list', (req, res) => {
+	const { filter, id } = req.query;
+	const { text, status } = req.action.body;
+	const todo = database.update(id, { text, status });
+
+	if (!todo) {
+		return res.status(404);
+	} else {
+		return res.universalRedirect(getListUrl(filter));
+	}
+});
+
+// inline delete
+router.delete('/views/list', (req, res) => {
+	const { filter, id } = req.query;
+	database.remove(id);
+	return res.universalRedirect(getListUrl(filter));
 });
 
 // these are custom business logic endpoints
@@ -87,16 +121,6 @@ router.delete('/:id', (req, res) => {
 	const { id } = req.params;
 	database.remove(id);
 	res.universalRedirect(`/`);
-});
-
-// inline routes
-router.post('/inline/', (req, res) => {
-	const todo = req.action.body;
-	const { filter } = req.query;
-
-	const id = database.add(todo);
-
-	res.universalRedirect(`/views/list/${filter}?focus=${id}`);
 });
 
 export default router;

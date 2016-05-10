@@ -21,7 +21,7 @@ const experiment = (Component, outerProps) => {
 			switch (stateObj.state) {
 				case 'success': return <Component {...outerProps} />;
 				case 'failure': return <div><h1>Failed to load</h1></div>;
-				case 'pending': return <Spinner spinnerName="double-bounce" noFadeIn />;
+				case 'pending': return <Spinner spinnerName="double-bounce" />;
 				default: throw new Error(`There is a loading state that is unpopulated for ${location.path} - ${JSON.stringify(stateObj)}`);
 			}
 		}

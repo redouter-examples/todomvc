@@ -103,6 +103,22 @@ h1 {
     border-bottom: 1px solid #ccc;
 }
 
+.inline-form .todo input[type="text"] {
+    border-bottom: none;
+}
+
+.inline-form .todo input[type="text"]:focus {
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+.inline-form button {
+    border: none;
+    background: transparent;
+    font-size: .9em;
+    cursor: pointer;
+}
+
 .todo-single .todo {
     border-bottom: none;
 }
