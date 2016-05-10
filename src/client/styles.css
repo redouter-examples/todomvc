@@ -73,6 +73,7 @@ h1 {
 
 .todo input[type="checkbox"]:disabled {
 	border: 1px dashed #ddd;
+    border: 1px solid transparent;
 }
 
 .todo input[type="checkbox"]:checked::after {
