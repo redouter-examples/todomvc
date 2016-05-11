@@ -8,6 +8,8 @@ const Template = React.createClass({
 		return (
 			<html>
 				<head>
+					<meta charset="utf-8" />
+  					<meta name="viewport" content="width=device-width" />
 					{ props.title ? <title>{props.title}</title> : null }
 					{ props.stylesheet ? <link rel="stylesheet" href={props.stylesheet} /> : null }
 				</head>
