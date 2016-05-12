@@ -65,6 +65,17 @@ function getListUrl(filter) {
 	return filter ? `/views/list?filter=${filter}` : `/views/list`;
 }
 
+// inline create
+router.post('/views/list', (req, res) => {
+	const { filter } = req.query;
+	const todo = req.action.body;
+	const id = database.add(todo);
+
+	res.dispatch({type: 'CLEAR_TODO'});
+
+	res.universalRedirect(getListUrl(filter));
+});
+
 // inline update
 router.put('/views/list', (req, res) => {
 	const { filter, id } = req.query;

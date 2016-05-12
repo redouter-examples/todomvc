@@ -16,25 +16,34 @@ const ICONS = {
 	CANCEL: `\u{274c}`
 };
 
-const listMapping = ({ meta }) => ({ meta });
-
 const ITEM_VARIANTS = {
-	Inline: connect(listMapping)(React.createClass({
+	InlineCreate: React.createClass({
 		render() {
 			const { props } = this;
-			const BASE_URL = `/views/list?${props.meta.filter ? `filter=${props.meta.filter}&` : ''}`;
-			const ACTION_URL = `${BASE_URL}id=${props.id}`;
+			const onSubmit = ({text = ''}) => text && text.trim().length > 0;
+
+			return (<div className="todos-list-item">
+				<Form className="inline-form" method="post" action={props.action} autocomplete="off" onSubmit={onSubmit}>
+					<Todo text={props.text} editable={true} completable={false}></Todo>
+				</Form>
+			</div>);
+		}
+	}),
+	Inline: React.createClass({
+		render() {
+			const { props } = this;
+			const ACTION_URL = `${props.action}id=${props.id}`;
 
 			const BUTTONS = {
 				SAVE: <ActionButton key="save" action={ACTION_URL} method="put">{ICONS.DISK}</ActionButton>,
 				DELETE: <ActionButton key="delete" action={ACTION_URL} method="delete">{ICONS.TRASH}</ActionButton>,
-				CANCEL: <LinkButton key="cancel" to={BASE_URL}>{ICONS.CANCEL}</LinkButton>,
+				CANCEL: <LinkButton key="cancel" to={props.action}>{ICONS.CANCEL}</LinkButton>,
 				EDIT: <LinkButton key="edit" to={ACTION_URL}>{ICONS.PENCIL}</LinkButton>
-			}
+			};
 
 			return (<div className="todos-list-item">
 				<Form className="inline-form" method="post" action={ACTION_URL} autocomplete="off">
-					<Todo {...props} editable={props.editingMode}>
+					<Todo text={props.text} id={props.id} status={props.status} editable={props.editingMode}>
 						{ 
 							props.editingMode ? [BUTTONS.SAVE, BUTTONS.DELETE, BUTTONS.CANCEL] : [BUTTONS.EDIT] 
 						}
@@ -42,7 +51,7 @@ const ITEM_VARIANTS = {
 				</Form>
 			</div>);
 		}
-	})),
+	}),
 	Normal: React.createClass({
 		render() {
 			const { props } = this;
@@ -58,7 +67,14 @@ const ITEM_VARIANTS = {
 };
 
 const ListPage = React.createClass({
-	render: function() {
+	getDefaultProps() {
+		return {
+			todo: { 
+				text: ''
+			}
+		};
+	},
+	render() {
 		const props = this.props;
 		const filterClass = {
 			all: classnames({'active-filter': !props.filter }),
@@ -66,14 +82,16 @@ const ListPage = React.createClass({
 			DONE : classnames({'active-filter': props.filter === 'DONE'})
 		};
 		const editingId = props.editing && props.editing.id;
+		const BASE_ACTION = `/views/list?${props.filter ? `filter=${props.filter}&` : ''}`;
 
 		return (<div className="todos-list">
+			<ITEM_VARIANTS.InlineCreate action={BASE_ACTION} text={props.todo.text} />
 			{
 				props.todos.map(({id, text, status}) => {
 					if (id === editingId) {
-						return <ITEM_VARIANTS.Inline key={id} id={id} text={props.editing.text} status={props.editing.status} editingMode={true} />;
-					} else {
-						return <ITEM_VARIANTS.Inline key={id} id={id} text={text} status={status} />;
+						return <ITEM_VARIANTS.Inline action={BASE_ACTION} key={id} id={id} text={props.editing.text} status={props.editing.status} editingMode={true} />;
+					} else { 
+						return <ITEM_VARIANTS.Inline action={BASE_ACTION} key={id} id={id} text={text} status={status} />;
 					}
 				})
 			}
@@ -94,7 +112,7 @@ const ListPage = React.createClass({
 	}
 });
 
-const mapping = ({ todos, meta: { filter, pendingCount }, editing }) => ({ todos, filter, pendingCount, editing });
+const mapping = ({ todos, meta: { filter, pendingCount }, editing, todo }) => ({ todos, filter, pendingCount, editing });
 const mapped = connect(mapping)(ListPage);
 
 export { mapped as ListPage };

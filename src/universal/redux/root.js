@@ -43,12 +43,13 @@ const reducerMap = {
 	todo: function(state = {}, action) {
 		switch (action.type) {
 			case 'SET_TODO': return { ...action.payload };
+			case 'CLEAR_TODO': return {};
 		}
 		return state;
 	},
 	todos: function(state = [], action) {
 		switch (action.type) {
-			case 'SET_TODOS': return [ ...action.payload ];
+			case 'SET_TODOS': return [ ...action.payload ].reverse();
 		}
 		return state;
 	},

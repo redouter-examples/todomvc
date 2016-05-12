@@ -48,10 +48,17 @@ export default connect()(React.createClass({
 	onSubmit(e) {
 		// dumb form serialization
 		e.preventDefault();
+
 		const url = this.lastClick.getAttribute('formaction') || e.target.action;
 		const body = serialize(e.target);
         const action = POST({url, body});
-		this.props.dispatch(action);
+
+        // run any predefined onSubmit handler first. Instead of passing the event,
+        // we pass in the serialized body
+        const { props } = this;
+        if (!props.onSubmit || props.onSubmit && props.onSubmit(body)) {
+            props.dispatch(action);
+        }
 	},
 	render() {
 		const { props, onSubmit, onClick } = this;

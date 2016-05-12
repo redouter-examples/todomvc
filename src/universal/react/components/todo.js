@@ -16,6 +16,12 @@ const Todo = React.createClass({
 			this.setState({ isChecked: !state.isChecked});
 		}
 	},
+	getDefaultProps() {
+		return {
+			completable: true,
+			editable: false
+		}
+	},
 	render() {
 		const { props, state, onChange } = this;
 		const cssClass = {
@@ -25,8 +31,8 @@ const Todo = React.createClass({
 		};
 
 		return (<div className={classnames(cssClass)} data-id={props.id}>
-			<input type="checkbox" name="status" checked={state.isChecked} onChange={onChange} disabled={!props.editable} value="DONE" />
-			{ props.editable ? <input type="hidden" name="id" value={props.id} /> : null }
+			{ props.completable ? <input type="checkbox" name="status" checked={state.isChecked} onChange={onChange} disabled={!props.editable} value="DONE" /> : null }
+			{ props.editable && props.id ? <input type="hidden" name="id" value={props.id} /> : null }
 			{ props.editable ? <input type="text" name="text" defaultValue={props.text} /> : <span className="text">{props.text}</span> }
 			{ this.props.children ? <div className="actions">{this.props.children}</div> : null }
 		</div>);
