@@ -32,7 +32,10 @@ router.get('/views/update/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_PAGE', payload: { title: `update ${req.params.id}`}});
 }));
 
-router.get('/views/create', (req, res) => res.universalRender());
+router.get('/views/create', (req, res) => {
+	res.dispatch({type: 'SET_PAGE', payload: { title: `create todo`}});
+	res.universalRender(); 
+});
 router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `delete ${req.params.id}`}});
