@@ -17,25 +17,7 @@ app.use('/static', express.static('./src/client'));
 app.use(bodyParser.urlencoded({extended: true})); // basic HTML form POST
 app.use(bodyParser.json());
 
-// because HTML, even 5, doesn't support form actions other than GET and POST
-app.use(methodOverride(req => {
-	// we use multiple techniques to detect the supposed method
-	let method;
-
-	if (req.query._method) {
-		method = req.query._method;
-		delete req.query._method;
-	} else if (req.body._method) {
-		method = req.body._method;
-		delete req.body._method;
-	}
-
-	if (method) {
-		console.log(`Method overriden - ${method}`);
-	}
-	
-	return method;
-}));
+app.use(methodOverride('_method'));
 
 // insert redouter middleware
 app.use(server.redouter({
@@ -49,6 +31,15 @@ ${html}
  <script async src="/static/bundle.js"></script>
 `
 }));
+
+// TODO: Move this into redouter at some point
+app.use((req, res, next) => {
+	if (req.action.body) {
+		req.body = req.action.body;
+	}
+	next();
+});
+
 app.use(routes);
 
 const serverInstance = app.listen(process.env.PORT || 3000, () => {

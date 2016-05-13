@@ -22,9 +22,9 @@ const ITEM_VARIANTS = {
 			const { props } = this;
 			const onSubmit = ({text = ''}) => text && text.trim().length > 0;
 
-			return (<div className="todos-list-item">
+			return (<div className="todos-list-item todos-create">
 				<Form className="inline-form" method="post" action={props.action} autocomplete="off" onSubmit={onSubmit}>
-					<Todo text={props.text} editable={true} completable={false}></Todo>
+					<Todo text={props.text} editable={true} completable={false} placeholder="What needs to be done?"></Todo>
 				</Form>
 			</div>);
 		}
