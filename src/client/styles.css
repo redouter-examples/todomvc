@@ -64,6 +64,7 @@ h1 {
 
 .todo input[type="checkbox"] {
     -webkit-appearance: none;
+    background: transparent;
     border: 1px solid #CCC;
     width: 40px;
     height: 40px;
@@ -79,8 +80,8 @@ h1 {
 .todo input[type="checkbox"]:checked::after {
 	position: relative;
 	content:'\2714';
-	color: green;
-	font-size: 40px;
+	color: green !important;
+	font-size: 40px !important;
 	left: 8px;
 	top: -8px;
 	padding: 0;

@@ -6,10 +6,10 @@ import React from 'react';
 export default React.createClass({
 	getInitialState() {
 		const { props } = this;
-		return { value: props.value };
+		return { value: props.value || '' };
 	},
 	componentWillReceiveProps(nextProps) {
-		this.setState({ value: nextProps.value });
+		this.setState({ value: nextProps.value || '' });
 	},
 	onChange(e) {
 		this.setState({ value: e.target.value });
