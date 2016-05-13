@@ -2,32 +2,26 @@ import React from 'react'; // eslint-disable-line no-unused-vars
 import { Router } from 'express';
 import * as database from '../data/index';
 
-const SIMULATED_DELAY = 1000;
-const delay = duration => fn => setTimeout(fn, duration);
-const weit = delay(SIMULATED_DELAY);
-
 const router = Router();
 
-const getTodo = (req, res, fn) => {
+const getTodoAndRender = (req, res, fn) => {
 	const { id } = req.params;
-	weit(() => {
-		const todo = database.get(id);
+	const todo = database.get(id);
 
-		if (todo) {
-			fn(todo);
-			return res.universalRender();
-		} else {
-			res.status(404);
-		}
-	});
+	if (todo) {
+		fn(todo);
+		return res.universalRender();
+	} else {
+		res.status(404);
+	}
 };
 
-router.get('/views/show/:id', (req, res) => getTodo(req, res, todo => {
+router.get('/views/show/:id', (req, res) => getTodoAndRender(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `view ${req.params.id}`} });
 }));
 
-router.get('/views/update/:id', (req, res) => getTodo(req, res, todo => {
+router.get('/views/update/:id', (req, res) => getTodoAndRender(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `update ${req.params.id}`}});
 }));
@@ -36,7 +30,8 @@ router.get('/views/create', (req, res) => {
 	res.dispatch({type: 'SET_PAGE', payload: { title: `create todo`}});
 	res.universalRender(); 
 });
-router.get('/views/delete/:id', (req, res) => getTodo(req, res, todo => {
+
+router.get('/views/delete/:id', (req, res) => getTodoAndRender(req, res, todo => {
 	res.dispatch({type: 'SET_TODO', payload: todo});
 	res.dispatch({type: 'SET_PAGE', payload: { title: `delete ${req.params.id}`}});
 }));
@@ -72,7 +67,7 @@ function getListUrl(filter) {
 router.post('/views/list', (req, res) => {
 	const { filter } = req.query;
 	const todo = req.action.body;
-	const id = database.add(todo);
+	database.add(todo);
 
 	res.dispatch({type: 'CLEAR_TODO'});
 
@@ -88,6 +83,7 @@ router.put('/views/list', (req, res) => {
 	if (!todo) {
 		return res.status(404);
 	} else {
+		res.dispatch({type: 'EDITING', payload: todo}); // weird side effect. optimistic update while waiting for authoritatie response
 		return res.universalRedirect(getListUrl(filter));
 	}
 });
@@ -124,7 +120,7 @@ router.put('/:id', (req, res) => {
 	const todo = database.update(id, { text, status });
 
 	if (todo.id) {
-		res.universalRedirect(`/${todo.id}`);	
+		res.universalRedirect(`/${todo.id}`);
 	} else {
 		res.universalRedirect(`/`);
 	}
