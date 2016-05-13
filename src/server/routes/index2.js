@@ -66,7 +66,7 @@ function getListUrl(filter) {
 // inline create
 router.post('/views/list', (req, res) => {
 	const { filter } = req.query;
-	const todo = req.body;
+	const todo = req.action.body;
 	database.add(todo);
 
 	res.dispatch({type: 'CLEAR_TODO'});
@@ -77,7 +77,7 @@ router.post('/views/list', (req, res) => {
 // inline update
 router.put('/views/list', (req, res) => {
 	const { filter, id } = req.query;
-	const { text, status } = req.body;
+	const { text, status } = req.action.body;
 	const todo = database.update(id, { text, status });
 
 	if (!todo) {
@@ -108,7 +108,7 @@ router.get('/:id', (req, res) => res.universalRedirect(`/views/show/${req.params
 
 // non HTML returning routes
 router.post('/', (req, res) => {
-	const todo = req.body;
+	const todo = req.action.body;
 	const id = database.add(todo);
 
 	res.universalRedirect(`/${id}`);

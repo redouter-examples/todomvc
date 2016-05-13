@@ -18,6 +18,7 @@ export default React.createClass({
 		const { props, state, onChange } = this;
 		return <input 
 			type="text" onChange={onChange} 
-			className={props.className} name={props.name} disabled={props.disabled} value={state.value} />;
+			className={props.className} name={props.name} disabled={props.disabled} placeholder={props.placeholder}
+			value={state.value} />;
 	}
 });

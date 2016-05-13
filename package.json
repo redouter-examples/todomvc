@@ -41,7 +41,7 @@
     "react-redux": "^4",
     "react-router": "^2",
     "react-spinkit": "^1.1.4",
-    "redouter": "^0.4.1",
+    "redouter": "^0.4.2",
     "redux": "^3",
     "route-action": "^1.0.0",
     "serve-favicon": "^2.3.0",

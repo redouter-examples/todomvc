@@ -32,14 +32,6 @@ ${html}
 `
 }));
 
-// TODO: Move this into redouter at some point
-app.use((req, res, next) => {
-	if (req.action.body) {
-		req.body = req.action.body;
-	}
-	next();
-});
-
 app.use(routes);
 
 const serverInstance = app.listen(process.env.PORT || 3000, () => {
